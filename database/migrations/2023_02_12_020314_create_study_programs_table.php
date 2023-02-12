@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('study_programs', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->string('study_name', 255);
             $table->foreignId('faculty_id')->constrained('faculties');
         });
     }

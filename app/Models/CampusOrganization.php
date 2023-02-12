@@ -12,5 +12,6 @@ class CampusOrganization extends Model
     protected $table = 'campus_organizations';
     protected $fillable = ['code', 'name'];
     protected $primaryKey = 'code';
-    protected $incrementing = false;
+
+    public $timestamps = false;
 }

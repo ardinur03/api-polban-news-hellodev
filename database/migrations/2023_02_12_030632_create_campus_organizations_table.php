@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('campus_organizations', function (Blueprint $table) {
-            $table->string('code', 10)->primary('campus_organizations_pkey');
-            $table->string('name', 100);
+            $table->string('code_campus_organization', 10)->primary('campus_organizations_pkey');
+            $table->string('name_campus_organization', 100);
         });
     }
 

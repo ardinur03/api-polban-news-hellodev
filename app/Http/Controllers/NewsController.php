@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewRequest;
 use App\Models\News;
 use Illuminate\Http\Request;
+use ProtoneMedia\Splade\SpladeTable;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -14,7 +17,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.news.index', [
+            'news' => SpladeTable::for(News::class)->column(key: 'title', sortable: true, searchable: true)->column(key: 'brief_overview', sortable: true, searchable: true)->column(key: 'reading_time', sortable: true, searchable: true)->column(key: 'status', sortable: true, searchable: true)->paginate(15),
+        ]);
     }
 
     /**
@@ -24,7 +29,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.news.create');
     }
 
     /**
@@ -33,9 +38,15 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $news = $request->validated();
+        $news['slug'] = Str::slug($news['title']);
+        $news['reading_time'] = Str::length($news['content']) / 1000;
+        $news['user_id'] = auth()->user()->id;
+        $news['status'] = Str::of($news['status'])->lower();
+        News::create($news);
+        return redirect()->route('admin.news.index')->with('success', 'News created successfully.');
     }
 
     /**

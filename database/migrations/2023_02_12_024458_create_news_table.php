@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('title', 100);
+            $table->string('slug', 100)->unique();
             $table->string('brief_overview', 50);
             $table->text('content');
             $table->string('reading_time', 5);
