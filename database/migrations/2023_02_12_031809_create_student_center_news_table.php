@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('new_id')->constrained('news');
             $table->foreignId('category_id')->constrained('categories');
             $table->string('campus_organization_code');
-            $table->foreign('campus_organization_code')->references('code')->on('campus_organizations');
+            $table->foreign('campus_organization_code')->references('code_campus_organization')->on('campus_organizations');
             $table->timestamps();
         });
     }

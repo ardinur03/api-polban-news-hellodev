@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('faculties', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->string('faculty_name', 255);
         });
     }
 

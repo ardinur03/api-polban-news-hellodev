@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->integer('cohort_year')->nullable();
             $table->text('address')->nullable();
-            $table->string('phone_number')->nullable();
+            $table->string('phone_number', 15)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

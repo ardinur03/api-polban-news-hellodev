@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('new_id')->constrained('news');
             $table->foreignId('category_id')->constrained('categories');
             $table->string('faculty_organizations_code');
-            $table->foreign('faculty_organizations_code')->references('code')->on('faculty_organizations');
+            $table->foreign('faculty_organizations_code')->references('code_faculty_organization')->on('faculty_organizations');
             $table->timestamps();
         });
     }
@@ -31,5 +31,11 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('student_association_news');
+
+        Schema::table('student_association_news', function (Blueprint $table) {
+            $table->dropForeign(['new_id']);
+            $table->dropForeign(['category_id']);
+            $table->dropForeign(['faculty_organizations_code']);
+        });
     }
 };

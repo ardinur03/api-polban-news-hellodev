@@ -12,6 +12,7 @@ class Image extends Model
 
     protected $table = 'images';
     protected $fillable = ['picturePath', 'news_id',];
+    public $timestamps = false;
 
     public function toArray()
     {

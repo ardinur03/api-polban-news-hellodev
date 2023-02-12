@@ -3,7 +3,8 @@
     @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
             @auth
-                <Link href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
+                <Link href="{{ url('/admin/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">
+                Dashboard
                 </Link>
             @else
                 <Link href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</Link>
@@ -44,9 +45,7 @@
 
                     <div class="ml-12">
                         <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                            Laravel has wonderful, thorough documentation covering every aspect of the framework.
-                            Whether you are new to the framework or have previous experience with Laravel, we recommend
-                            reading all of the documentation from beginning to end.
+                            {{ Auth::user()->name ?? 'login' }}
                         </div>
                     </div>
                 </div>

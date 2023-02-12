@@ -11,4 +11,5 @@ class faculty extends Model
 
     protected $table = 'faculties';
     protected $fillable = ['name'];
+    public $timestamps = false;
 }

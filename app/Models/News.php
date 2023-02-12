@@ -11,5 +11,5 @@ class News extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'news';
-    protected $fillable = ['user_id', 'title', 'brief_overview', 'content', 'reading_time'];
+    protected $fillable = ['user_id', 'slug', 'title', 'brief_overview', 'content', 'reading_time'];
 }

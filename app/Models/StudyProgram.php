@@ -11,4 +11,5 @@ class StudyProgram extends Model
 
     protected $table = 'study_programs';
     protected $fillable = ['name', 'faculty_id',];
+    public $timestamps = false;
 }
