@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class Image extends Model
+class Gallery extends Model
 {
     use HasFactory;
 
-    protected $table = 'images';
+    protected $table = 'galleries';
     protected $fillable = ['picturePath', 'news_id',];
     public $timestamps = false;
 

@@ -23,4 +23,9 @@ class StudentCenterNew extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
+
+    public function news()
+    {
+        return $this->belongsTo(News::class, 'new_id', 'id');
+    }
 }

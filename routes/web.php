@@ -30,7 +30,6 @@ Route::middleware('splade')->group(function () {
     });
 
     Route::middleware('auth')->group(function () {
-
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('dashboard', function () {
                 return view('dashboard');
