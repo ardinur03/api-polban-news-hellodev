@@ -17,6 +17,9 @@ return new class extends Migration
             $table->id();
             $table->text('picturePath')->nullable();
             $table->foreignId('news_id')->constrained('news')->onDelete('cascade');
+
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

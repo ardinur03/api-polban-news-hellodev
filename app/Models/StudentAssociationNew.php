@@ -26,7 +26,7 @@ class StudentAssociationNew extends Model
 
     public function news()
     {
-        return $this->hasOne(News::class, 'new_id', 'id');
+        return $this->belongsTo(News::class, 'new_id', 'id');
     }
 
     public function faculty_organization()

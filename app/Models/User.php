@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class);
     }
+
+    public function userOrganization()
+    {
+        return $this->hasOne(UserCampusOrganization::class);
+    }
 }

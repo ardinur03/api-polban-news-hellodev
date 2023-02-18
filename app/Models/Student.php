@@ -30,7 +30,6 @@ class Student extends Model
         return Carbon::parse($value)->timestamp;
     }
 
-    // function relasi
     public function user()
     {
         return $this->belongsTo(User::class);

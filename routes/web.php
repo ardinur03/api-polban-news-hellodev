@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\{ProfileController, NewController, NewGalleryController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +33,8 @@ Route::middleware('splade')->group(function () {
             Route::get('dashboard', function () {
                 return view('dashboard');
             })->middleware(['verified'])->name('dashboard');
-            Route::resource('news', NewsController::class);
+            Route::resource('news', NewController::class);
+            Route::resource('news.gallery', NewGalleryController::class)->shallow()->only(['index', 'create', 'store', 'destroy']);
         });
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

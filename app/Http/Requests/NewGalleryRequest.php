@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use ProtoneMedia\Splade\FileUploads\HasSpladeFileUploads;
 
-class NewRequest extends FormRequest
+class NewGalleryRequest extends FormRequest implements HasSpladeFileUploads
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +25,8 @@ class NewRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:100',
-            'brief_overview' => 'required|string|max:50',
-            'content' => 'required|string',
-            'status' => 'required|string|max:255',
-            'category_id' => 'required',
+            'files' => 'required',
+            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 }

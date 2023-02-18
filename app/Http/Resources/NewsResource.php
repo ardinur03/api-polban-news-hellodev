@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
-class NewResource extends JsonResource
+class NewsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,9 +23,10 @@ class NewResource extends JsonResource
             'brief_overview' => $this->brief_overview,
             'reading_time' => $this->reading_time,
             'status' => $this->status,
-            'author' => $this->user()->first()->name,
-            'student_assosiacition_new' => new FacultyNewResource($this->student_assosiacation_new()->first()),
-            'created_at' => $this->created_at->timestamp,
+            'code_organization' => $this->code,
+            // 'author' => $this->user()->first()->name,
+            // created_at menggunakan epoch
+            'created_at' => Carbon::parse($this->created_at)->timestamp,
         ];
     }
 }
