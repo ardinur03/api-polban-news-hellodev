@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
-class Image extends Model
+class Gallery extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'images';
+    protected $table = 'galleries';
     protected $fillable = ['picturePath', 'news_id',];
     public $timestamps = false;
 
@@ -24,5 +25,10 @@ class Image extends Model
     public function getPicturePathAttribute()
     {
         return url('') . Storage::url($this->attributes['picturePath']);
+    }
+
+    public function news()
+    {
+        return $this->belongsTo(News::class, 'news_id', 'id');
     }
 }

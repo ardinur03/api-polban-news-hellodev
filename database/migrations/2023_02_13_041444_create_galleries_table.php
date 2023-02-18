@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('images', function (Blueprint $table) {
-            $table->foreignId('new_id')->constrained('news')->after('picturePath');
+        Schema::create('galleries', function (Blueprint $table) {
+            $table->id();
+            $table->text('picturePath')->nullable();
+            $table->foreignId('news_id')->constrained('news')->onDelete('cascade');
+
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('images', function (Blueprint $table) {
-            $table->dropColumn('new_id');
-        });
+        Schema::dropIfExists('galleries');
     }
 };

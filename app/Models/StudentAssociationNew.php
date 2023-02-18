@@ -23,4 +23,14 @@ class StudentAssociationNew extends Model
     {
         return Carbon::parse($value)->timestamp;
     }
+
+    public function news()
+    {
+        return $this->belongsTo(News::class, 'new_id', 'id');
+    }
+
+    public function faculty_organization()
+    {
+        return $this->belongsTo(FacultyOrganization::class, 'faculty_organization_code', 'code_faculty_organization');
+    }
 }

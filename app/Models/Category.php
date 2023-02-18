@@ -12,4 +12,9 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = ['name'];
     public $timestamps = false;
+
+    public function student_center_new()
+    {
+        return $this->hasMany(StudentCenterNew::class, 'category_id', 'id');
+    }
 }

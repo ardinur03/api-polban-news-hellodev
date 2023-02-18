@@ -14,4 +14,9 @@ class CampusOrganization extends Model
     protected $primaryKey = 'code';
 
     public $timestamps = false;
+
+    public function studentCenterNews()
+    {
+        return $this->hasMany(StudentCenterNew::class, 'campus_organization_code', 'code');
+    }
 }

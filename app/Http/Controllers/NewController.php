@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewRequest;
+use App\Models\Category;
 use App\Models\News;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use ProtoneMedia\Splade\SpladeTable;
+use App\Models\StudentCenterNew;
+use App\Models\User;
+use App\Tables\NewsTable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Facades\Toast;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
-class NewsController extends Controller
+class NewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,33 +21,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-
-        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
-            $query->where(function ($query) use ($value) {
-                Collection::wrap($value)->each(function ($value) use ($query) {
-                    $query
-                        ->orWhere('title', 'LIKE', "%{$value}%")
-                        ->orWhere('status', 'LIKE', "%{$value}%");
-                });
-            });
-        });
-
-        $news = QueryBuilder::for(News::class)
-            ->defaultSort('title')
-            ->allowedSorts(['title', 'status'])
-            ->allowedFilters(['title', 'status', $globalSearch]);
-
-        $status = News::pluck('status', 'status')->toArray();
-
         return view('admin.news.index', [
-            'news' => SpladeTable::for($news)
-                ->column(key: 'title', sortable: true, searchable: true)
-                ->column(key: 'brief_overview', sortable: true, searchable: true)
-                ->column(key: 'reading_time', sortable: true, searchable: true)
-                ->column(key: 'status', sortable: true, searchable: true)
-                ->column('action')
-                ->selectFilter(key: 'status', options: $status)
-                ->paginate(5),
+            'news' => NewsTable::class
         ]);
     }
 
@@ -58,7 +33,12 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.create');
+        $data =  [
+            'title' => 'Create New',
+            'categories' => Category::all(),
+        ];
+
+        return view('admin.news.create', $data);
     }
 
     /**
@@ -74,11 +54,12 @@ class NewsController extends Controller
         $news['reading_time'] = Str::length($news['content']) / 1000;
         $news['user_id'] = auth()->user()->id;
         $news['status'] = Str::of($news['status'])->lower();
-        News::create($news);
-        Toast::title('Successfully!')
-            ->message('New Post Created')
-            ->backdrop()
-            ->autoDismiss(3);
+        StudentCenterNew::create([
+            'new_id' => News::create($news)->id,
+            'category_id' => $news['category_id'],
+            'campus_organization_code' => Auth::user()->userOrganization->campus_organization_code,
+        ]);
+        Toast::title('Successfully!')->message('New Post Created')->backdrop()->autoDismiss(3);
 
         return to_route('admin.news.index');
     }
@@ -102,7 +83,24 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        return view('admin.news.edit', compact('news'));
+        if (User::find(auth()->user()->id)->hasRole('admin-pusat')) {
+            $news = StudentCenterNew::with(['new', 'category'])->where('new_id', $news->id)->firstOrFail();
+            $news->category_id = $news->category->id;
+            $news->title = $news->new->title;
+            $news->brief_overview = $news->new->brief_overview;
+            $news->content = $news->new->content;
+            $news->status = $news->new->status;
+            $news->category_id = $news->category->id;
+        } else {
+            dd('bukan admin pusat');
+        }
+        $data = [
+            'title' => 'Edit New',
+            'news' => $news,
+            'categories' => Category::all(),
+        ];
+
+        return view('admin.news.edit', $data);
     }
 
     /**
@@ -115,11 +113,8 @@ class NewsController extends Controller
     public function update(NewRequest $request, News $news)
     {
         $news->update($request->validated());
-        Toast::title('Successfully!')
-            ->message('Post Updated')
-            ->info()
-            ->backdrop()
-            ->autoDismiss(3);
+        $news->studentCenterNew->update(['category_id' => $request->category_id,]);
+        Toast::title('Successfully!')->message('Post Updated')->info()->backdrop()->autoDismiss(3);
 
         return to_route('admin.news.index');
     }
@@ -133,11 +128,8 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         $news->delete();
-        Toast::title('Successfully!')
-            ->message('Post Deleted')
-            ->danger()
-            ->backdrop()
-            ->autoDismiss(3);
+        Toast::title('Successfully!')->message('Post Deleted')->danger()->backdrop()->autoDismiss(3);
+
         return to_route('admin.news.index');
     }
 }
