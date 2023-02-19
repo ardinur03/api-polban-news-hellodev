@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\CampusOrganization;
+use App\Models\FacultyOrganization;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
@@ -15,6 +18,16 @@ class NewsResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = User::find($this->user_id);
+
+        if (CampusOrganization::where('code_campus_organization', $this->code)->first()) {
+            $created_by = 'pusat';
+        } elseif (FacultyOrganization::where('code_faculty_organization', $this->code)->first()) {
+            $created_by = 'himpunan';
+        } else {
+            $created_by = null;
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -24,8 +37,8 @@ class NewsResource extends JsonResource
             'reading_time' => $this->reading_time,
             'status' => $this->status,
             'code_organization' => $this->code,
-            // 'author' => $this->user()->first()->name,
-            // created_at menggunakan epoch
+            'author' => $user->name,
+            'scope' => $created_by,
             'created_at' => Carbon::parse($this->created_at)->timestamp,
         ];
     }
