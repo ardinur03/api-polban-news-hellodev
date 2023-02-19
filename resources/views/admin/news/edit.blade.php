@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('News Edit') }}
@@ -25,9 +25,9 @@
                     @endforeach
                 </x-splade-select>
 
-                <x-splade-submit class="mt-4 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
+                <x-splade-submit class="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-md"
                     label="Edit" />
             </x-splade-form>
         </div>
     </div>
-</x-app-layout>
+</x-layout>

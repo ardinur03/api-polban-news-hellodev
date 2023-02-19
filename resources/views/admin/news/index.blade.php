@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout>
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -6,7 +6,7 @@
             </h2>
 
             <Link href="{{ route('admin.news.create') }}"
-                class="px-4 py-2 bg-green-400 hover:bg-green-600 text-white rounded-md">
+                class="px-4 py-2 bg-green-400 hover:bg-green-600 text-white rounded-md text-sm font-normal">
             {{ __('Create News') }}
             </Link>
         </div>
@@ -30,4 +30,4 @@
         </x-splade-table>
     </x-panel>
 
-</x-app-layout>
+</x-layout>
