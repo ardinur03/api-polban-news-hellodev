@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\StudentCenterNew;
 use App\Models\User;
 use App\Tables\NewsTable;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Facades\Toast;
@@ -50,7 +51,7 @@ class NewController extends Controller
     public function store(NewRequest $request)
     {
         $news = $request->validated();
-        $news['slug'] = Str::slug($news['title']);
+        $news['slug'] = SlugService::createSlug(News::class, 'slug', $news['title']);
         $news['reading_time'] = Str::length($news['content']) / 1000;
         $news['user_id'] = auth()->user()->id;
         $news['status'] = Str::of($news['status'])->lower();
@@ -83,6 +84,9 @@ class NewController extends Controller
      */
     public function edit(News $news)
     {
+
+        $this->authorize('update', $news);
+
         if (User::find(auth()->user()->id)->hasRole('admin-pusat')) {
             $news = StudentCenterNew::with(['new', 'category'])->where('new_id', $news->id)->firstOrFail();
             $news->category_id = $news->category->id;
