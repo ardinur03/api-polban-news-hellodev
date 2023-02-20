@@ -46,8 +46,8 @@ class NewsTable extends AbstractTable
                 });
             });
         });
-
-        return QueryBuilder::for(News::class)->defaultSort('title')->allowedSorts(['id', 'title', 'status', 'brief_overview'])->allowedFilters(['id', 'title', 'status', 'brief_overview', $globalSearch]);
+        $news = News::where('user_id', auth()->user()->id);
+        return QueryBuilder::for($news)->defaultSort('title')->allowedSorts(['id', 'title', 'status', 'brief_overview'])->allowedFilters(['id', 'title', 'status', 'brief_overview', $globalSearch]);
     }
 
     /**

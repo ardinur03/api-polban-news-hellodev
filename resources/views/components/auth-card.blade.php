@@ -4,7 +4,9 @@
             {{ $logo }}
         @else
             <Link href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+            <img src="{{ asset('assets/logo/logo-polban-news.png') }}" alt="Logo"
+                class="w-auto h-32 fill-current text-gray-500">
             </Link>
         @endisset
     </div>

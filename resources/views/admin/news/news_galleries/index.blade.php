@@ -1,11 +1,11 @@
-<x-app-layout>
+<x-layout>
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('News Galleries') }}
             </h2>
             <Link href="{{ route('admin.news.gallery.create', $news->id) }}"
-                class="px-4 py-2 bg-green-400 hover:bg-green-600 text-white rounded-md">
+                class="px-4 py-2 bg-green-400 hover:bg-green-600 text-white text-sm rounded-md">
             {{ __('+ Upload Photo') }}
             </Link>
         </div>
@@ -27,4 +27,4 @@
         </x-splade-table>
     </x-panel>
 
-</x-app-layout>
+</x-layout>

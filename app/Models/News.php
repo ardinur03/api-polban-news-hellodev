@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class News extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Sluggable;
 
     protected $table = 'news';
     protected $fillable = ['user_id', 'slug', 'title', 'brief_overview', 'content', 'status', 'reading_time'];
@@ -38,5 +39,14 @@ class News extends Model
     public function gallery()
     {
         return $this->hasMany(Gallery::class, 'news_id', 'id');
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 }
