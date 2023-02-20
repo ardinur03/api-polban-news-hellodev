@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewsResource;
-use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +13,7 @@ class NewController extends Controller
     public function all(Request $request)
     {
         $id = $request->input('id');
-        $limit = $request->input('limit', 6);
+        $limit = $request->input('limit', 5);
         $title = $request->input('title');
         $slug = $request->input('slug');
         $content = $request->input('content');
@@ -39,9 +38,8 @@ class NewController extends Controller
                 );
         });
 
-
         if ($id) {
-            $news_first =  $news->where('news.id', '=', $id);
+            $news_first =  $news->where('id', '=', $id);
             if ($news_first) {
                 return ResponseFormatter::success(
                     $news_first->first(),
@@ -57,15 +55,15 @@ class NewController extends Controller
         }
 
         if ($title) {
-            $news->where('news.title', 'like', '%' . $title . '%');
+            $news->where('title', 'like', '%' . $title . '%');
         }
 
         if ($slug) {
-            $news->where('news.slug', 'like', '%' . $slug . '%');
+            $news->where('slug', 'like', '%' . $slug . '%');
         }
 
         if ($content) {
-            $news->where('news.content', 'like', '%' . $content . '%');
+            $news->where('content', 'like', '%' . $content . '%');
         }
 
         if ($date_filter) {
@@ -84,7 +82,7 @@ class NewController extends Controller
 
         if ($limit == 0) {
             return ResponseFormatter::success(
-                NewsResource::collection($news->get()),
+                NewsResource::collection($news->paginate($limit)),
                 'Data list news berhasil diambil'
             );
         }

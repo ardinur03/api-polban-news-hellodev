@@ -22,7 +22,6 @@ class NewGalleryController extends Controller
             'title' => 'News Galleries',
             'news' => $news,
             'news_galleries' => SpladeTable::for($query)
-                ->column(key: 'no', sortable: true, searchable: true)
                 ->column(key: 'news_id', sortable: true, searchable: true)
                 ->column(key: 'image', sortable: true, searchable: true)
                 ->column('action')
