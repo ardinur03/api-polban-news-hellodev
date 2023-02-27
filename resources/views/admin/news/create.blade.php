@@ -13,6 +13,8 @@
                     placeholder="Enter your Brief Overview here..." />
                 <x-splade-textarea name="content" label="Content" class="mt-2" autosize
                     placeholder="Enter your Content here..." />
+                <x-splade-textarea name="content" label="Content" class="mt-2" autosize rows="10"
+                    placeholder="Enter your content here..." />
                 <x-splade-select name="status" label="Status" class="mt-2">
                     <option value="">Select Status</option>
                     <option value="draft">Draft</option>
