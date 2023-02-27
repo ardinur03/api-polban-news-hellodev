@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
@@ -18,6 +19,14 @@ class NewsResource extends JsonResource
     {
         $user = User::find($this->user_id);
 
+        $galleries = [];
+        $data_galleries = Gallery::all();
+        foreach ($data_galleries as $gallery) {
+            if ($this->id == $gallery->news_id) {
+                array_push($galleries, $gallery->picturePath);
+            }
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -28,6 +37,8 @@ class NewsResource extends JsonResource
             'status' => $this->status,
             'code_organization' => $this->code,
             'author' => $user->name,
+            'scope' => $this->scope,
+            'galleries' => $galleries,
             'created_at' => Carbon::parse($this->created_at)->timestamp,
         ];
     }

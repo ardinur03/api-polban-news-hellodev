@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\ResponseFormatter;
+use App\Helpers\ResponseFormatterApi;
+use App\Helpers\ResponseFormatterApiPagination;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewsResource;
 use Illuminate\Http\Request;
@@ -37,21 +38,22 @@ class NewController extends Controller
                         ->selectRaw("'himpunan' AS scope")
                 );
         });
-
+        // dd(NewsResource::collection($news->get()));
         if ($id) {
             $news_first =  $news->where('id', '=', $id);
-            if ($news_first) {
-                return ResponseFormatter::success(
-                    $news_first->first(),
-                    'Data news berhasil diambil'
-                );
-            } else {
-                return ResponseFormatter::error(
+
+            if ($news_first->count() == 0) {
+                return ResponseFormatterApi::error(
                     null,
                     'Data news tidak ada',
                     404
                 );
             }
+
+            return ResponseFormatterApi::success(
+                NewsResource::collection($news_first->get()),
+                'Data news berhasil diambil'
+            );
         }
 
         if ($title) {
@@ -72,7 +74,7 @@ class NewController extends Controller
             } else if ($date_filter == 'oldest') {
                 $news->orderBy('created_at', 'ASC');
             } else {
-                return ResponseFormatter::error(
+                return ResponseFormatterApiPagination::error(
                     null,
                     'Date filter tidak ada',
                     404
@@ -81,19 +83,19 @@ class NewController extends Controller
         }
 
         if ($limit == 0) {
-            return ResponseFormatter::success(
+            return ResponseFormatterApiPagination::success(
                 NewsResource::collection($news->paginate($limit)),
                 'Data list news berhasil diambil'
             );
         }
 
         if ($scope) {
-            if ($scope == 'pusat') {
+            if ($scope == 'assosiation') {
                 $news->where('scope', '=', 'pusat');
             } else if ($scope == 'himpunan') {
                 $news->where('scope', '=', 'himpunan');
             } else {
-                return ResponseFormatter::error(
+                return ResponseFormatterApiPagination::error(
                     null,
                     'Scope tidak ada',
                     404
@@ -101,7 +103,7 @@ class NewController extends Controller
             }
         }
 
-        return ResponseFormatter::success(
+        return ResponseFormatterApiPagination::success(
             NewsResource::collection($news->paginate($limit)),
             'Data list news berhasil diambil'
         );
