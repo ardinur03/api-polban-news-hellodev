@@ -17,12 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             CampusOrganizationSeeder::class,
-            UserAdminRoleSeeder::class,
             FacultySeeder::class,
             FacultyOrganizationsSeeder::class,
             StudyProgramSeeder::class,
+            UserAdminRoleSeeder::class,
             UserMahasiswaSeeder::class,
             CategorySeeder::class,
         ]);
+        \App\Models\StudentCenterNew::factory(500)->create();
     }
 }
