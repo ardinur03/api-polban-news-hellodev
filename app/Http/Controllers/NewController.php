@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\StudentAssociationNew;
 use App\Models\StudentCenterNew;
 use App\Models\User;
 use App\Tables\NewsTable;
@@ -55,11 +56,23 @@ class NewController extends Controller
         $news['reading_time'] = Str::length($news['content']) / 1000;
         $news['user_id'] = auth()->user()->id;
         $news['status'] = Str::of($news['status'])->lower();
-        StudentCenterNew::create([
-            'new_id' => News::create($news)->id,
-            'category_id' => $news['category_id'],
-            'campus_organization_code' => Auth::user()->userOrganization->campus_organization_code,
-        ]);
+
+        if (User::find(auth()->user()->id)->hasRole('admin-pusat')) {
+            StudentCenterNew::create([
+                'new_id' => News::create($news)->id,
+                'category_id' => $news['category_id'],
+                'campus_organization_code' => Auth::user()->userCampusOrganization->campus_organization_code,
+            ]);
+        } else if (User::find(auth()->user()->id)->hasRole('admin-himpunan')) {
+            StudentAssociationNew::create([
+                'new_id' => News::create($news)->id,
+                'category_id' => $news['category_id'],
+                'faculty_organization_code' => Auth::user()->userAssociationOrganization->faculty_organization_code,
+            ]);
+        } else {
+            Toast::title('Failed!')->message('You are not authorized to create new')->backdrop()->autoDismiss(3);
+        }
+
         Toast::title('Successfully!')->message('New Post Created')->backdrop()->autoDismiss(3);
 
         return to_route('admin.news.index');
@@ -84,20 +97,21 @@ class NewController extends Controller
      */
     public function edit(News $news)
     {
-
         $this->authorize('update', $news);
 
         if (User::find(auth()->user()->id)->hasRole('admin-pusat')) {
             $news = StudentCenterNew::with(['new', 'category'])->where('new_id', $news->id)->firstOrFail();
-            $news->category_id = $news->category->id;
-            $news->title = $news->new->title;
-            $news->brief_overview = $news->new->brief_overview;
-            $news->content = $news->new->content;
-            $news->status = $news->new->status;
-            $news->category_id = $news->category->id;
         } else {
-            dd('bukan admin pusat');
+            $news = StudentAssociationNew::with(['new', 'category'])->where('new_id', $news->id)->firstOrFail();
         }
+
+        $news->category_id = $news->category->id;
+        $news->title = $news->new->title;
+        $news->brief_overview = $news->new->brief_overview;
+        $news->content = $news->new->content;
+        $news->status = $news->new->status;
+        $news->category_id = $news->category->id;
+
         $data = [
             'title' => 'Edit New',
             'news' => $news,
@@ -117,9 +131,12 @@ class NewController extends Controller
     public function update(NewRequest $request, News $news)
     {
         $news->update($request->validated());
-        $news->studentCenterNew->update(['category_id' => $request->category_id,]);
+        if (User::find(auth()->user()->id)->hasRole('admin-pusat')) {
+            $news->studentCenterNew->update(['category_id' => $request->category_id]);
+        } else {
+            $news->studentAssociationNew->update(['category_id' => $request->category_id]);
+        }
         Toast::title('Successfully!')->message('Post Updated')->info()->backdrop()->autoDismiss(3);
-
         return to_route('admin.news.index');
     }
 
@@ -133,7 +150,6 @@ class NewController extends Controller
     {
         $news->delete();
         Toast::title('Successfully!')->message('Post Deleted')->danger()->backdrop()->autoDismiss(3);
-
         return to_route('admin.news.index');
     }
 }

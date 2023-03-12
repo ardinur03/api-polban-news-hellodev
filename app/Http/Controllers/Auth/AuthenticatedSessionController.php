@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use ProtoneMedia\Splade\Facades\Toast;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -35,6 +36,9 @@ class AuthenticatedSessionController extends Controller
             $request->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
         } else if (Auth::user()->hasRole('mahasiswa')) {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Toast::title('INVALID!')->danger('Please log in using the Polban News mobile application!')->backdrop();
             return redirect('/');
         }
     }

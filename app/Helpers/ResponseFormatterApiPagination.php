@@ -5,7 +5,7 @@ namespace App\Helpers;
 /**
  * Format response.
  */
-class ResponseFormatter
+class ResponseFormatterApiPagination
 {
     /**
      * API Response

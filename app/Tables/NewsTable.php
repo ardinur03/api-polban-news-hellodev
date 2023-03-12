@@ -47,7 +47,7 @@ class NewsTable extends AbstractTable
             });
         });
         $news = News::where('user_id', auth()->user()->id);
-        return QueryBuilder::for($news)->defaultSort('title')->allowedSorts(['id', 'title', 'status', 'brief_overview'])->allowedFilters(['id', 'title', 'status', 'brief_overview', $globalSearch]);
+        return QueryBuilder::for($news)->defaultSort('title')->allowedSorts(['id', 'title', 'reading_time', 'status', 'brief_overview'])->allowedFilters(['id', 'title', 'status', 'brief_overview', $globalSearch]);
     }
 
     /**
@@ -58,6 +58,6 @@ class NewsTable extends AbstractTable
      */
     public function configure(SpladeTable $table)
     {
-        $table->column('id', sortable: true)->withGlobalSearch()->defaultSort('title')->column(key: 'title', sortable: true, searchable: true)->column(key: 'brief_overview', sortable: true, searchable: true)->column(key: 'reading_time', sortable: false, searchable: false)->column(key: 'status', sortable: true, searchable: true)->column('action')->selectFilter(key: 'status', options: ['draft' => 'Draft', 'published' => 'Published',])->paginate(10);
+        $table->column('id', sortable: true)->withGlobalSearch()->defaultSort('title')->column(key: 'title', sortable: true, searchable: true)->column(key: 'brief_overview', sortable: true, searchable: true)->column(key: 'reading_time', sortable: true, searchable: false)->column(key: 'status', sortable: true, searchable: true)->column('action')->selectFilter(key: 'status', options: ['draft' => 'Draft', 'published' => 'Published',])->paginate(10);
     }
 }

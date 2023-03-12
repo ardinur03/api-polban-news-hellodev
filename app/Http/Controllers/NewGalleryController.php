@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewGalleryRequest;
 use App\Models\Gallery;
 use App\Models\News;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
 class NewGalleryController extends Controller
@@ -14,9 +17,13 @@ class NewGalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(News $news)
+    public function index(News $news): View
     {
         $query = Gallery::where('news_id', $news->id);
+
+        if (auth()->user()->id !== $news->user_id) {
+            abort(403, 'You are not allowed to access this page.');
+        }
 
         return view('admin.news.news_galleries.index', [
             'title' => 'News Galleries',
@@ -48,7 +55,7 @@ class NewGalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NewGalleryRequest $request, News $news)
+    public function store(Request $request, News $news)
     {
         $image = $request->file('files');
         if ($request->hasFile('files')) {
@@ -62,6 +69,8 @@ class NewGalleryController extends Controller
             }
         }
 
+        Toast::success('News Gallery has been created successfully')->backdrop()->autoDismiss(3);
+
         return redirect()->route('admin.news.gallery.index', $news->id);
     }
 
@@ -74,7 +83,7 @@ class NewGalleryController extends Controller
     public function destroy(Gallery $gallery)
     {
         $gallery->delete();
-
+        Toast::success('News Gallery has been deleted successfully')->backdrop()->autoDismiss(3);
         return redirect()->route('admin.news.gallery.index', $gallery->news_id);
     }
 }

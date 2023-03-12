@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\UserAssociationOrganization;
 use App\Models\UserCampusOrganization;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -47,6 +48,13 @@ class UserAdminRoleSeeder extends Seeder
         UserCampusOrganization::create([
             'user_id' => $admin_pusat->id,
             'campus_organization_code' => 'BEM',
+            'position' => 'Ketua',
+        ]);
+
+        // assign admin himpunan to faculty organization
+        UserAssociationOrganization::create([
+            'user_id' => $admin_himpunan->id,
+            'faculty_organization_code' => 'HIMAKOM',
             'position' => 'Ketua',
         ]);
     }
