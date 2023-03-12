@@ -26,7 +26,7 @@ class NewGalleryRequest extends FormRequest implements HasSpladeFileUploads
     {
         return [
             'files' => 'required',
-            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|size:max:2048'
         ];
     }
 }

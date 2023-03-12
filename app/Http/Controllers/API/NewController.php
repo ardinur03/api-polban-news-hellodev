@@ -90,7 +90,7 @@ class NewController extends Controller
         }
 
         if ($scope) {
-            if ($scope == 'assosiation') {
+            if ($scope == 'pusat') {
                 $news->where('scope', '=', 'pusat');
             } else if ($scope == 'himpunan') {
                 $news->where('scope', '=', 'himpunan');
