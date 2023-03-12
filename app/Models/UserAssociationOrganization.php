@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UserCampusOrganization extends Model
+class UserAssociationOrganization extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'user_campus_organizations';
-    protected $fillable = ['user_id', 'campus_organization_code', 'position'];
+    protected $table = 'user_association_organizations';
+
+    protected $fillable = ['user_id', 'faculty_organization_code', 'position'];
 
     public function getCreatedAtAttribute($value)
     {

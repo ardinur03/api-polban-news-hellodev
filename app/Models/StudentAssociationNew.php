@@ -11,7 +11,7 @@ class StudentAssociationNew extends Model
     use HasFactory;
 
     protected $table = 'student_association_news';
-    protected $fillable = ['new_id', 'category_id', 'faculty_organization_code',];
+    protected $fillable = ['new_id', 'category_id', 'faculty_organization_code'];
 
     // function assesor untuk mengubah format waktu
     public function getCreatedAtAttribute($value)
@@ -24,9 +24,14 @@ class StudentAssociationNew extends Model
         return Carbon::parse($value)->timestamp;
     }
 
-    public function news()
+    public function new()
     {
         return $this->belongsTo(News::class, 'new_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function faculty_organization()

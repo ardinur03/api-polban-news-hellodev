@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_association_news', function (Blueprint $table) {
+        Schema::create('user_association_organizations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('new_id')->constrained('news');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('user_id')->constrained('users');
             $table->string('faculty_organization_code');
             $table->foreign('faculty_organization_code')->references('code_faculty_organization')->on('faculty_organizations');
+            $table->string('position', 100);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,12 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_association_news');
-
-        Schema::table('student_association_news', function (Blueprint $table) {
-            $table->dropForeign(['new_id']);
-            $table->dropForeign(['category_id']);
-            $table->dropForeign(['faculty_organizations_code']);
-        });
+        Schema::dropIfExists('user_association_organizations');
     }
 };

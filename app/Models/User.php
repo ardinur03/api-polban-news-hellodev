@@ -68,8 +68,13 @@ class User extends Authenticatable
         return $this->hasMany(News::class);
     }
 
-    public function userOrganization()
+    public function userCampusOrganization()
     {
         return $this->hasOne(UserCampusOrganization::class);
+    }
+
+    public function userAssociationOrganization()
+    {
+        return $this->hasOne(UserAssociationOrganization::class);
     }
 }

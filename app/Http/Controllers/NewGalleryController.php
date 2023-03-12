@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewGalleryRequest;
 use App\Models\Gallery;
 use App\Models\News;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
@@ -16,9 +17,13 @@ class NewGalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(News $news)
+    public function index(News $news): View
     {
         $query = Gallery::where('news_id', $news->id);
+
+        if (auth()->user()->id !== $news->user_id) {
+            abort(403, 'You are not allowed to access this page.');
+        }
 
         return view('admin.news.news_galleries.index', [
             'title' => 'News Galleries',
