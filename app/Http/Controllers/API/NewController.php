@@ -34,7 +34,7 @@ class NewController extends Controller
                         ->rightJoin('student_association_news', 'news.id', '=', 'student_association_news.new_id')
                         ->whereNull('news.deleted_at')
                         ->where('news.status', '=', 'published')
-                        ->select('news.*', 'student_association_news.faculty_organizations_code AS code')
+                        ->select('news.*', 'student_association_news.faculty_organization_code AS code')
                         ->selectRaw("'himpunan' AS scope")
                 );
         });
