@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('title', 100);
             $table->string('slug', 100)->unique();
-            $table->string('brief_overview', 50);
+            $table->string('brief_overview', 260);
             $table->text('content');
             $table->string('reading_time', 5);
             $table->enum('status', ['published', 'draft', 'deleted'])->default('draft');
