@@ -25,7 +25,7 @@ class NewRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:100',
-            'brief_overview' => 'required|string|max:50',
+            'brief_overview' => 'required|string|max:260',
             'content' => 'required|string',
             'status' => 'required|string|max:255',
             'category_id' => 'required',
