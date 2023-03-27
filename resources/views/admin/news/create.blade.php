@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-splade-form :action="route('admin.news.store')" class="max-w-md mx-auto p-4 bg-white rounded-md shadow-md">
+        <div class="max-w-7xl mx-auto sm:px-12 lg:px-12">
+            <x-splade-form :action="route('admin.news.store')" class="max-w-2xl mx-auto p-4 bg-white rounded-md shadow-md">
                 <x-splade-input name="title" label="Title" placeholder="Enter your Title here..." />
                 <x-splade-input name="brief_overview" label="Brief Overview" class="mt-2"
                     placeholder="Enter your Brief Overview here..." />

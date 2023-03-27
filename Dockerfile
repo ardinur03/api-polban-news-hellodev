@@ -18,7 +18,7 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
 COPY composer.lock composer.json /var/www/html/
 
 # Install dependencies dari proyek Laravel
-RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-scripts --no-progress
+RUN composer install
 
 # Menyalin seluruh file dari direktori proyek ke dalam container
 COPY . /var/www/html/
@@ -30,7 +30,7 @@ RUN cp .env.example .env && php artisan key:generate
 RUN chmod -R 777 storage bootstrap/cache
 
 # Install dependencies dan membangun assets menggunakan NPM
-RUN npm install && npm run production
+RUN npm install && npm run build
 
 # Expose port 80 ke host
 EXPOSE 80
