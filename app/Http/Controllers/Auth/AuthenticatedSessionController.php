@@ -35,10 +35,18 @@ class AuthenticatedSessionController extends Controller
         if (Auth::user()->hasRole('admin-pusat') | Auth::user()->hasRole('admin-himpunan')) {
             $request->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
+        } else if (Auth::user()->hasRole('super-admin')) {
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME_SUPER_ADMIN);
         } else if (Auth::user()->hasRole('mahasiswa')) {
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             Toast::title('INVALID!')->danger('Please log in using the Polban News mobile application!')->backdrop();
+            return redirect('/');
+        } else {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Toast::title('INVALID!')->danger('Your account is not detected as a role, please contact admin support!')->backdrop();
             return redirect('/');
         }
     }
