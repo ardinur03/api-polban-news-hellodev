@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, NewController, NewGalleryController};
+use App\Http\Controllers\{AdminController, ProfileController, NewController, NewGalleryController, SuperAdminController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,11 +28,9 @@ Route::middleware('splade')->group(function () {
         return view('welcome');
     });
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'role:admin-pusat|admin-himpunan'])->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
-            Route::get('dashboard', function () {
-                return view('dashboard');
-            })->middleware(['verified'])->name('dashboard');
+            Route::get('dashboard', [AdminController::class, 'index'])->middleware(['verified'])->name('dashboard');
             Route::resource('news', NewController::class);
             Route::resource('news.gallery', NewGalleryController::class)->shallow()->only(['index', 'create', 'store', 'destroy']);
         });
@@ -40,6 +38,10 @@ Route::middleware('splade')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
+
+    Route::prefix('super-admin')->middleware(['auth', 'role:super-admin'])->name('super-admin.')->group(function () {
+        Route::get('dashboard', [SuperAdminController::class, 'index'])->name('dashboard');
     });
 
     require __DIR__ . '/auth.php';
