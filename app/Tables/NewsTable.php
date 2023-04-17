@@ -58,6 +58,6 @@ class NewsTable extends AbstractTable
      */
     public function configure(SpladeTable $table)
     {
-        $table->column('id', sortable: true)->withGlobalSearch()->defaultSort('title')->column(key: 'title', sortable: true, searchable: true)->column(key: 'brief_overview', sortable: true, searchable: true)->column(key: 'reading_time', sortable: true, searchable: false)->column(key: 'status', sortable: true, searchable: true)->column('action')->selectFilter(key: 'status', options: ['draft' => 'Draft', 'published' => 'Published',])->paginate(10);
+        $table->column('id', sortable: true)->withGlobalSearch()->column(key: 'title', sortable: true, searchable: true)->column(key: 'brief_overview', sortable: true, searchable: true)->column(key: 'reading_time', sortable: true, searchable: false)->column(key: 'status', sortable: true, searchable: true)->column('action')->selectFilter(key: 'status', options: ['draft' => 'Draft', 'published' => 'Published',])->paginate(10);
     }
 }

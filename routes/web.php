@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, ProfileController, NewController, NewGalleryController, SuperAdminController};
+use App\Http\Controllers\{AdminController, HomeController, ProfileController, NewController, NewGalleryController, SuperAdminController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,11 +24,9 @@ Route::middleware('splade')->group(function () {
     // Registers routes to support async File Uploads with Filepond...
     Route::spladeUploads();
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::middleware(['auth', 'role:admin-pusat|admin-himpunan'])->group(function () {
+    Route::middleware(['auth', 'role:admin-pusat|admin-himpunan|super-admin'])->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('dashboard', [AdminController::class, 'index'])->middleware(['verified'])->name('dashboard');
             Route::resource('news', NewController::class);
