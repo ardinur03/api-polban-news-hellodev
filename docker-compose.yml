@@ -31,9 +31,9 @@ services:
       - ./mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: homestead
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }} 
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_USER: polbannews
+      MYSQL_PASSWORD: polbannewsProyek4Mantap
+      MYSQL_ROOT_PASSWORD: polbannews4Mantap
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
