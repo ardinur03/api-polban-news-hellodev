@@ -27,10 +27,6 @@ jobs:
         run: |
           docker-compose up -d
 
-      - name: Run tests
-        run: |
-          docker-compose run composer install
-
       - name: Tear down the app
         run: |
           docker-compose down
