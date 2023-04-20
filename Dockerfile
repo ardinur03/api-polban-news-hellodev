@@ -1,39 +1,27 @@
-# Menggunakan image PHP 8.0 sebagai base image
-FROM php:8.0
+FROM php:8.1.5-fpm-alpine
 
-# Set working directory di dalam container
-WORKDIR /var/www/html
+RUN apk add --no-cache libzip-dev && docker-php-ext-install zip
 
-# Menginstall extension yang dibutuhkan oleh Laravel
-RUN docker-php-ext-install pdo pdo_mysql bcmath
+# Install composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Menginstall Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install dependencies for PHP
+RUN docker-php-ext-install pdo_mysql
 
-# Menginstall Node.js dan NPM
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs
+# Install dependencies for Node.js
+RUN apk add --update nodejs npm
 
-# Menyalin file composer.lock dan composer.json ke dalam container
-COPY composer.lock composer.json /var/www/html/
+# Set working directory
+WORKDIR /var/www/polbannews.site
 
-# Install dependencies dari proyek Laravel
-RUN composer install
+# Copy source code aplikasi ke dalam container
+COPY . /var/www/polbannews.site/
 
-# Menyalin seluruh file dari direktori proyek ke dalam container
-COPY . /var/www/html/
+# Install dependency aplikasi menggunakan composer install --no-dev --prefer-dist --optimize-autoloader
+RUN composer update
 
-# Menyalin file .env.example dan membuat file .env
-RUN cp .env.example .env && php artisan key:generate
-
-# Memberikan izin pada direktori storage dan bootstrap/cache
-RUN chmod -R 777 storage bootstrap/cache
-
-# Install dependencies dan membangun assets menggunakan NPM
+# Install dependency aplikasi menggunakan npm
 RUN npm install && npm run build
 
-# Expose port 80 ke host
-EXPOSE 80
-
-# Menjalankan perintah "php artisan serve" pada saat container dijalankan
-CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
+# Set permission untuk folder storage
+RUN chown -R www-data:www-data /var/www/polbannews.site
