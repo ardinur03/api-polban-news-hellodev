@@ -29,11 +29,11 @@ services:
       - 4036:3306
     volumes:
       - ./mysql:/var/lib/mysql
-    env:
+    environment:
       MYSQL_DATABASE: homestead
-      MYSQL_USER: ${{ MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ MYSQL_PASSWORD }} 
-      MYSQL_ROOT_PASSWORD: ${{ MYSQL_ROOT_PASSWORD }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }} 
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
