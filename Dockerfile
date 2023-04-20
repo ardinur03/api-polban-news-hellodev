@@ -23,5 +23,4 @@ RUN composer update
 # Install dependency aplikasi menggunakan npm
 RUN npm install && npm run build
 
-# Set permission untuk folder storage
 RUN chown -R www-data:www-data /var/www/polbannews.site
