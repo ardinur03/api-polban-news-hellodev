@@ -29,7 +29,7 @@ services:
       - 4036:3306
     volumes:
       - ./mysql:/var/lib/mysql
-    environment:
+    env:
       MYSQL_DATABASE: homestead
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }} 
