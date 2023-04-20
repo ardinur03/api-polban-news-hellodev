@@ -10,7 +10,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./src:/var/www/polbannews.site
+      - ./var/www/polbannews.site
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     volumes_from:
       - php
