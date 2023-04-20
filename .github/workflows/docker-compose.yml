@@ -2,7 +2,7 @@ name: Run Docker Compose
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   docker:
