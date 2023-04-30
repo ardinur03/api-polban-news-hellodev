@@ -1,7 +1,8 @@
 <x-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard Admin Center') }}
+            {{ __('Dashboard ') }}
+            {{ Auth::user()->hasRole('admin-pusat') ? 'Admin Pusat' : 'Admin Himpunan' }}
         </h2>
     </x-slot>
 
@@ -22,7 +23,6 @@
                     </svg>
                 </x-slot>
             </x-card-dashboard>
-
             <!-- Jumlah Berita Draft -->
             <x-card-dashboard title="Jumlah berita draft" link="{{ route('admin.dashboard') }}">
                 {{ $count_by_news_draft }}

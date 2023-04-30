@@ -19,11 +19,13 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl" dusk="delete-user">
-                    @include('profile.partials.delete-user-form')
+            @if (Route::has('profile.destroy'))
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-xl" dusk="delete-user">
+                        @include('profile.partials.delete-user-form')
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </x-layout>
