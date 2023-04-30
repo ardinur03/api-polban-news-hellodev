@@ -57,6 +57,12 @@ class NewGalleryController extends Controller
      */
     public function store(Request $request, News $news)
     {
+
+        $request->validate([
+            'files' => 'required|array',
+            'files.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
         $image = $request->file('files');
         if ($request->hasFile('files')) {
             foreach ($image as $file) {

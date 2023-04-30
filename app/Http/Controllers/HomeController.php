@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use ProtoneMedia\Splade\Facades\SEO;
 
 class HomeController extends Controller

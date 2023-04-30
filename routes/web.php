@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, HomeController, ProfileController, NewController, NewGalleryController, SuperAdminController};
+use App\Http\Controllers\{AdminController, AdminRegisterOptionController, HomeController, ProfileController, NewController, NewGalleryController, SuperAdminController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,14 +32,20 @@ Route::middleware('splade')->group(function () {
             Route::resource('news', NewController::class);
             Route::resource('news.gallery', NewGalleryController::class)->shallow()->only(['index', 'create', 'store', 'destroy']);
         });
-
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
     Route::prefix('super-admin')->middleware(['auth', 'role:super-admin'])->name('super-admin.')->group(function () {
         Route::get('dashboard', [SuperAdminController::class, 'index'])->name('dashboard');
+    });
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::middleware(['auth', 'user.register'])->group(function () {
+        Route::get('option-user-admin', [AdminRegisterOptionController::class, 'optionUserAdmin'])->name('option-user-admin');
+        Route::post('option-user-campus-admin', [AdminRegisterOptionController::class, 'optionUserAdminCampusStore'])->name('option-user-admin-campus.store');
+        Route::post('option-user-association-admin', [AdminRegisterOptionController::class, 'optionUserAdminAssociationStore'])->name('option-user-admin-association.store');
     });
 
     require __DIR__ . '/auth.php';

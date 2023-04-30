@@ -4,11 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use ProtoneMedia\Splade\Facades\Toast;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -76,5 +78,21 @@ class User extends Authenticatable
     public function userAssociationOrganization()
     {
         return $this->hasOne(UserAssociationOrganization::class);
+    }
+
+
+    public function getRedirectRoute()
+    {
+        if ($this->hasRole('admin-pusat') | $this->hasRole('admin-himpunan')) {
+            return RouteServiceProvider::HOME;
+        } else if ($this->hasRole('super-admin')) {
+            return RouteServiceProvider::HOME_SUPER_ADMIN;
+        } else if ($this->hasRole('mahasiswa')) {
+            Toast::title('INVALID!')->danger('Please log in using the Polban News mobile application!')->backdrop();
+            return '/';
+        } else {
+            Toast::title('SUCCESS!')->info('Welcome to Poban News, please select your role at Polban campus!')->center()->backdrop();
+            return RouteServiceProvider::OPTION_USER_ADMIN;
+        }
     }
 }
