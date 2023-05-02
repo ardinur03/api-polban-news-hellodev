@@ -7,7 +7,10 @@
                 {!! __('pagination.previous') !!}
             </span>
         @else
-            <Link keep-modal dusk="pagination-simple-previous" href="{{ $paginator->previousPageUrl() }}"
+            @php
+                $url_prev = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->previousPageUrl()) : $paginator->previousPageUrl();
+            @endphp
+            <Link keep-modal dusk="pagination-simple-previous" href="{{ $url_prev }}"
                 class="relative inline-flex items-center px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
             {!! __('pagination.previous') !!}
             </Link>
@@ -16,7 +19,10 @@
         @includeWhen($hasPerPageOptions ?? true, 'splade::table.per-page-selector')
 
         @if ($paginator->hasMorePages())
-            <Link keep-modal dusk="pagination-simple-next" href="{{ $paginator->nextPageUrl() }}"
+            @php
+                $url_next = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->nextPageUrl()) : $paginator->nextPageUrl();
+            @endphp
+            <Link keep-modal dusk="pagination-simple-next" href="{{ $url_next }}"
                 class="relative inline-flex items-center px-4 py-2 ml-3 text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
             {!! __('pagination.next') !!}
             </Link>
@@ -64,8 +70,10 @@
                         </span>
                     </span>
                 @else
-                    <Link keep-modal dusk="pagination-previous" href="{{ $paginator->previousPageUrl() }}"
-                        rel="prev"
+                    @php
+                        $url_prev = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->previousPageUrl()) : $paginator->previousPageUrl();
+                    @endphp
+                    <Link keep-modal dusk="pagination-previous" href="{{ $url_prev }}" rel="prev"
                         class="relative inline-flex items-center px-2 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
                         aria-label="{{ __('pagination.previous') }}">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -95,7 +103,10 @@
                                         class="relative inline-flex items-center px-4 py-2 -ml-px text-xs sm:text-sm font-medium bg-indigo-50 border-indigo-500 text-indigo-600 z-10 border cursor-default leading-5">{{ $page }}</span>
                                 </span>
                             @else
-                                <Link keep-modal dusk="pagination-{{ $page }}" href="{{ $url }}"
+                                @php
+                                    $url_page = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $url) : $url;
+                                @endphp
+                                <Link keep-modal dusk="pagination-{{ $page }}" href="{{ $url_page }}"
                                     class="relative inline-flex items-center px-4 py-2 -ml-px text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
                                     aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
                                 {{ $page }}
@@ -107,7 +118,10 @@
 
                 {{-- Next Page Link --}}
                 @if ($paginator->hasMorePages())
-                    <Link keep-modal dusk="pagination-next" href="{{ $paginator->nextPageUrl() }}" rel="next"
+                    @php
+                        $url_next = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->nextPageUrl()) : $paginator->nextPageUrl();
+                    @endphp
+                    <Link keep-modal dusk="pagination-next" href="{{ $url_next }}" rel="next"
                         class="relative inline-flex items-center px-2 py-2 -ml-px text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
                         aria-label="{{ __('pagination.next') }}">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

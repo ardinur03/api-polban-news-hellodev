@@ -5,6 +5,7 @@ namespace App\Tables;
 use App\Models\News;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
 use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -42,12 +43,12 @@ class NewsTable extends AbstractTable
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
-                    $query->orWhere('title', 'LIKE', "%{$value}%")->orWhere('status', 'LIKE', "%{$value}%")->orWhere('brief_overview', 'LIKE', "%{$value}%");
+                    $query->orWhere('title', 'LIKE', "%{$value}%")->orWhere('status', 'LIKE', "%{$value}%");
                 });
             });
         });
         $news = News::where('user_id', auth()->user()->id);
-        return QueryBuilder::for($news)->defaultSort('title')->allowedSorts(['id', 'title', 'reading_time', 'status', 'brief_overview'])->allowedFilters(['id', 'title', 'status', 'brief_overview', $globalSearch]);
+        return QueryBuilder::for($news)->defaultSort('title')->allowedSorts(['id', 'title', 'reading_time', 'status'])->allowedFilters(['id', 'title', 'status', $globalSearch]);
     }
 
     /**
@@ -58,6 +59,6 @@ class NewsTable extends AbstractTable
      */
     public function configure(SpladeTable $table)
     {
-        $table->column('id', sortable: true)->withGlobalSearch()->column(key: 'title', sortable: true, searchable: true)->column(key: 'brief_overview', sortable: true, searchable: true)->column(key: 'reading_time', sortable: true, searchable: false)->column(key: 'status', sortable: true, searchable: true)->column('action')->selectFilter(key: 'status', options: ['draft' => 'Draft', 'published' => 'Published',])->paginate(10);
+        $table->column('id', sortable: true)->withGlobalSearch()->column(key: 'title', sortable: true, searchable: true)->column(key: 'reading_time', label: 'Reading Time(s)', sortable: true, searchable: false)->column(key: 'status', sortable: true, searchable: true)->column('action')->selectFilter(key: 'status', options: ['draft' => 'Draft', 'published' => 'Published',])->paginate(10);
     }
 }
