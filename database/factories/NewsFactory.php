@@ -19,7 +19,7 @@ class NewsFactory extends Factory
     {
         $title = fake()->sentence(random_int(3, 5));
         $content = fake()->paragraphs(random_int(3, 5), true);
-        $reading_time = Str::length($content) / 1000;
+        $reading_time = str_word_count($content) / 200;
         $brief_overview = Str::substr($content, 0, 250);
 
         return [

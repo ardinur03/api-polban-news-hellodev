@@ -53,7 +53,7 @@ class NewController extends Controller
     {
         $news = $request->validated();
         $news['slug'] = SlugService::createSlug(News::class, 'slug', $news['title']);
-        $news['reading_time'] = Str::length($news['content']) / 1000;
+        $news['reading_time'] = str_word_count($news['content']) / 1000;
         $news['user_id'] = auth()->user()->id;
         $news['status'] = Str::of($news['status'])->lower();
 
@@ -130,7 +130,9 @@ class NewController extends Controller
      */
     public function update(NewRequest $request, News $news)
     {
-        $news->update($request->validated());
+        $request_data = $request->validated();
+        $request_data['reading_time'] = (str_word_count($request_data['content']) / 200);
+        $news->update($request_data);
         if (User::find(auth()->user()->id)->hasRole('admin-pusat')) {
             $news->studentCenterNew->update(['category_id' => $request->category_id]);
         } else {
