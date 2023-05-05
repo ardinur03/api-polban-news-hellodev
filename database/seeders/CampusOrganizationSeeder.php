@@ -23,6 +23,10 @@ class CampusOrganizationSeeder extends Seeder
             [
                 'code_campus_organization' => 'ULT',
                 'name_campus_organization' => 'Unit Layanan Terpadu'
+            ],
+            [
+                'code_campus_organization' => 'HDC',
+                'name_campus_organization' => 'Hello Dev Code Pusat'
             ]
         ];
 
