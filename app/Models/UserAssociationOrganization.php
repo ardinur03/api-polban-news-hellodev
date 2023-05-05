@@ -25,7 +25,7 @@ class UserAssociationOrganization extends Model
 
     public function getLogoAttribute()
     {
-        return url('') . Storage::url($this->attributes['picturePath']);
+        return url('') . Storage::url($this->attributes['logo']);
     }
 
     public function getCreatedAtAttribute($value)
@@ -41,5 +41,14 @@ class UserAssociationOrganization extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getLogoByUserId($id)
+    {
+        $logo = UserAssociationOrganization::where('user_id', $id)->first();
+        if (!$logo) {
+            return null;
+        }
+        return $logo->logo;
     }
 }

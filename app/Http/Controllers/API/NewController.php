@@ -5,7 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatterApi;
 use App\Helpers\ResponseFormatterApiPagination;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NewDetailResource;
 use App\Http\Resources\NewsResource;
+use App\Models\UserAssociationOrganization;
+use App\Models\UserCampusOrganization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,11 +41,12 @@ class NewController extends Controller
                         ->selectRaw("'himpunan' AS scope")
                 );
         });
-        // dd(NewsResource::collection($news->get()));
-        if ($id) {
-            $news_first =  $news->where('id', '=', $id);
 
-            if ($news_first->count() == 0) {
+        if ($id) {
+
+            $new_first =  $news->where('id', '=', $id);
+
+            if ($new_first->count() == 0) {
                 return ResponseFormatterApi::error(
                     null,
                     'Data news tidak ada',
@@ -51,7 +55,7 @@ class NewController extends Controller
             }
 
             return ResponseFormatterApi::success(
-                NewsResource::collection($news_first->get()),
+                NewDetailResource::collection($new_first->get()),
                 'Data news berhasil diambil'
             );
         }

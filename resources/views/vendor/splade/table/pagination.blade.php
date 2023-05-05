@@ -8,7 +8,7 @@
             </span>
         @else
             @php
-                $url_prev = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->previousPageUrl()) : $paginator->previousPageUrl();
+                $url_prev = config('app.env') === 'production' ? str_replace('http://', 'https://', $paginator->previousPageUrl()) : $paginator->previousPageUrl();
             @endphp
             <Link keep-modal dusk="pagination-simple-previous" href="{{ $url_prev }}"
                 class="relative inline-flex items-center px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
@@ -20,7 +20,7 @@
 
         @if ($paginator->hasMorePages())
             @php
-                $url_next = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->nextPageUrl()) : $paginator->nextPageUrl();
+                $url_next = config('app.env') === 'production' ? str_replace('http://', 'https://', $paginator->nextPageUrl()) : $paginator->nextPageUrl();
             @endphp
             <Link keep-modal dusk="pagination-simple-next" href="{{ $url_next }}"
                 class="relative inline-flex items-center px-4 py-2 ml-3 text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
@@ -71,7 +71,7 @@
                     </span>
                 @else
                     @php
-                        $url_prev = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->previousPageUrl()) : $paginator->previousPageUrl();
+                        $url_prev = config('app.env') === 'production' ? str_replace('http://', 'https://', $paginator->previousPageUrl()) : $paginator->previousPageUrl();
                     @endphp
                     <Link keep-modal dusk="pagination-previous" href="{{ $url_prev }}" rel="prev"
                         class="relative inline-flex items-center px-2 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
@@ -104,7 +104,7 @@
                                 </span>
                             @else
                                 @php
-                                    $url_page = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $url) : $url;
+                                    $url_page = config('app.env') === 'production' ? str_replace('http://', 'https://', $url) : $url;
                                 @endphp
                                 <Link keep-modal dusk="pagination-{{ $page }}" href="{{ $url_page }}"
                                     class="relative inline-flex items-center px-4 py-2 -ml-px text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
@@ -119,7 +119,7 @@
                 {{-- Next Page Link --}}
                 @if ($paginator->hasMorePages())
                     @php
-                        $url_next = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $paginator->nextPageUrl()) : $paginator->nextPageUrl();
+                        $url_next = config('app.env') === 'production' ? str_replace('http://', 'https://', $paginator->nextPageUrl()) : $paginator->nextPageUrl();
                     @endphp
                     <Link keep-modal dusk="pagination-next" href="{{ $url_next }}" rel="next"
                         class="relative inline-flex items-center px-2 py-2 -ml-px text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"

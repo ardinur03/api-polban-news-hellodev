@@ -16,7 +16,7 @@ px-6
                 @if ($column->sortable)
                     @php
                         $url = $sortBy($column);
-                        $url = env('APP_ENV') === 'production' ? str_replace('http://', 'https://', $url) : $url;
+                        $url = config('app.env') === 'production' ? str_replace('http://', 'https://', $url) : $url;
                     @endphp
                     <Link keep-modal dusk="sort-{{ $column->key }}" href="{{ $url }}">
                 @endif

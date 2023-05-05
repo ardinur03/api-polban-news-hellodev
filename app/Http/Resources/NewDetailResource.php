@@ -3,11 +3,14 @@
 namespace App\Http\Resources;
 
 use App\Models\Gallery;
+use App\Models\News;
 use App\Models\User;
+use App\Models\UserAssociationOrganization;
+use App\Models\UserCampusOrganization;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 
-class NewsResource extends JsonResource
+class NewDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -27,6 +30,15 @@ class NewsResource extends JsonResource
             }
         }
 
+        $campus_organization = new UserCampusOrganization;
+        $association_organization = new UserAssociationOrganization;
+
+        if ($this->scope == 'pusat') {
+            $logo = $campus_organization->getLogoByUserId($this->user_id);
+        } else if ($this->scope == 'himpunan') {
+            $logo = $association_organization->getLogoByUserId($this->user_id);
+        }
+
         return [
             'id'                => $this->id,
             'title'             => $this->title,
@@ -38,6 +50,7 @@ class NewsResource extends JsonResource
             'code_organization' => $this->code,
             'author'            => $user->name,
             'scope'             => $this->scope,
+            'logo'              => $logo,
             'galleries'         => $galleries,
             'created_at'        => Carbon::parse($this->created_at)->timestamp,
         ];
