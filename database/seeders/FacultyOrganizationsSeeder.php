@@ -25,6 +25,11 @@ class FacultyOrganizationsSeeder extends Seeder
                 'code_faculty_organization' => 'HMJTK',
                 'name_faculty_organization' => 'Himpunan Mahasiswa Teknik Kimia',
                 'faculty_id' => 2
+            ],
+            [
+                'code_faculty_organization' => 'HDC',
+                'name_faculty_organization' => 'Hello Dev Code Himpunan',
+                'faculty_id' => 4
             ]
         ];
 
