@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, AdminRegisterOptionController, HomeController, ProfileController, NewController, NewGalleryController, SuperAdminController};
+use App\Http\Controllers\{AdminController, AdminRegisterOptionController, CampusOrganizationController, CategoryController, FacultyOrganizationController, HomeController, ProfileController, NewController, NewGalleryController, SuperAdminController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,13 +29,16 @@ Route::middleware('splade')->group(function () {
     Route::middleware(['auth', 'role:admin-pusat|admin-himpunan|super-admin'])->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('dashboard', [AdminController::class, 'index'])->middleware(['verified'])->name('dashboard');
-            Route::resource('news', NewController::class);
-            Route::resource('news.gallery', NewGalleryController::class)->shallow()->only(['index', 'create', 'store', 'destroy']);
+            Route::resource('news', NewController::class)->except(['show']);
+            Route::resource('news.gallery', NewGalleryController::class)->shallow()->except(['show']);
         });
     });
 
     Route::prefix('super-admin')->middleware(['auth', 'role:super-admin'])->name('super-admin.')->group(function () {
         Route::get('dashboard', [SuperAdminController::class, 'index'])->name('dashboard');
+        Route::resource('categories', CategoryController::class)->except(['show']);
+        Route::resource('campus-organizations', CampusOrganizationController::class)->except(['show']);
+        Route::resource('faculty-organizations', FacultyOrganizationController::class)->except(['show']);
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

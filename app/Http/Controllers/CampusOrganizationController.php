@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CampusOrganization;
+use App\Tables\CampusOrganizationsTable;
 use Illuminate\Http\Request;
+use ProtoneMedia\Splade\Facades\Toast;
 
 class CampusOrganizationController extends Controller
 {
@@ -14,7 +16,9 @@ class CampusOrganizationController extends Controller
      */
     public function index()
     {
-        //
+        return view('super-admin.campus-organizations.index', [
+            'campus_organizations' => CampusOrganizationsTable::class
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class CampusOrganizationController extends Controller
      */
     public function create()
     {
-        //
+        return view('super-admin.campus-organizations.create');
     }
 
     /**
@@ -35,18 +39,18 @@ class CampusOrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'code_campus_organization' => 'required|max:10|unique:campus_organizations,code_campus_organization',
+            'name_campus_organization' => 'required|max:100|unique:campus_organizations,name_campus_organization'
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CampusOrganization  $campusOrganization
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CampusOrganization $campusOrganization)
-    {
-        //
+        CampusOrganization::create([
+            'code_campus_organization' => strtoupper($request->code_campus_organization),
+            'name_campus_organization' => ucwords(strtolower($request->name_campus_organization))
+        ]);
+
+        Toast::title('Successfully!')->message('Campus Organization Created')->success()->backdrop()->autoDismiss(3);
+        return redirect()->back();
     }
 
     /**
@@ -57,7 +61,7 @@ class CampusOrganizationController extends Controller
      */
     public function edit(CampusOrganization $campusOrganization)
     {
-        //
+        return view('super-admin.campus-organizations.edit', compact('campusOrganization'));
     }
 
     /**
@@ -69,7 +73,18 @@ class CampusOrganizationController extends Controller
      */
     public function update(Request $request, CampusOrganization $campusOrganization)
     {
-        //
+        $this->validate($request, [
+            'code_campus_organization' => 'required|max:10|unique:campus_organizations,code_campus_organization,' . $campusOrganization->code_campus_organization . ',code_campus_organization',
+            'name_campus_organization' => 'required|max:100|unique:campus_organizations,name_campus_organization,' . $campusOrganization->code_campus_organization . ',code_campus_organization'
+        ]);
+
+        $campusOrganization->update([
+            'code_campus_organization' => strtoupper($request->code_campus_organization),
+            'name_campus_organization' => ucwords(strtolower($request->name_campus_organization))
+        ]);
+
+        Toast::title('Successfully!')->message('Campus Organization Updated')->info()->backdrop()->autoDismiss(3);
+        return redirect()->back();
     }
 
     /**
@@ -80,6 +95,13 @@ class CampusOrganizationController extends Controller
      */
     public function destroy(CampusOrganization $campusOrganization)
     {
-        //
+        try {
+            $campusOrganization->delete();
+            Toast::title('Successfully!')->message('Campus Organization Deleted')->danger()->backdrop()->autoDismiss(3);
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            Toast::title('Failed!')->message('Campus Organization Failed to Delete')->danger()->backdrop()->autoDismiss(3);
+            return redirect()->back();
+        }
     }
 }

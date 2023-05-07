@@ -28,6 +28,19 @@ class FacultySeeder extends Seeder
             [
                 'faculty_name' => 'Hello Dev Code Faculty',
             ],
+            [
+                'faculty_name' => 'Teknik Sipil',
+            ],
+            [
+                'faculty_name' => 'Teknik Mesin',
+            ],
+            [
+                'faculty_name' => 'Teknik Konversi Energi'
+            ],
+            [
+                'faculty_name' => 'Administrasi Niaga'
+            ]
+
         ];
 
         foreach ($faculty as $data) {

@@ -10,7 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    protected $fillable = ['name'];
+    protected $fillable = ['category_name'];
     public $timestamps = false;
 
     public function student_center_new()
