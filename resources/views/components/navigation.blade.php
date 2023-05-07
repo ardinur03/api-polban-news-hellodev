@@ -28,6 +28,15 @@
                             <x-nav-link :href="route('super-admin.dashboard')" :active="request()->routeIs('super-admin.dashboard')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('super-admin.categories.index')" :active="request()->routeIs('super-admin.categories.index')">
+                                {{ __('Categories') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('super-admin.campus-organizations.index')" :active="request()->routeIs('super-admin.campus-organizations.index')">
+                                {{ __('Campus Organizations') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('super-admin.faculty-organizations.index')" :active="request()->routeIs('super-admin.faculty-organizations.index')">
+                                {{ __('Faculty Organizations') }}
+                            </x-nav-link>
                         @endif
 
 

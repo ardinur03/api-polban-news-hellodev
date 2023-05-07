@@ -7,10 +7,8 @@
     </x-slot>
 
     <div class="container mx-auto py-6">
-        <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Card Berita Baru Hari Ini -->
-            <x-card-dashboard title="Jumlah berita post hari ini" link="{{ route('admin.dashboard') }}">
+            <x-card-dashboard title="Jumlah berita post hari ini" link="{{ route('admin.news.index') }}">
                 {{ $count_by_news_today }}
                 <x-slot name="logo">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -23,8 +21,8 @@
                     </svg>
                 </x-slot>
             </x-card-dashboard>
-            <!-- Jumlah Berita Draft -->
-            <x-card-dashboard title="Jumlah berita draft" link="{{ route('admin.dashboard') }}">
+
+            <x-card-dashboard title="Jumlah berita draft" link="{{ route('admin.news.index') }}">
                 {{ $count_by_news_draft }}
                 <x-slot name="logo">
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -35,8 +33,7 @@
                 </x-slot>
             </x-card-dashboard>
 
-            <!-- Jumlah Berita Post -->
-            <x-card-dashboard title="Jumlah berita Post" link="{{ route('admin.dashboard') }}">
+            <x-card-dashboard title="Jumlah berita Post" link="{{ route('admin.news.index') }}">
                 {{ $count_by_news_published }}
                 <x-slot name="logo">
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"

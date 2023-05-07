@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Tables\CategoriesTable;
 use Illuminate\Http\Request;
+use ProtoneMedia\Splade\Facades\Toast;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('super-admin.categories.index', [
+            'categories' => CategoriesTable::class
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('super-admin.categories.create');
     }
 
     /**
@@ -35,18 +39,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'category_name' => 'required|unique:categories,category_name'
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
+        Category::create([
+            'category_name' => $request->category_name
+        ]);
+
+        Toast::title('Successfully!')->message('Category Created')->success()->backdrop()->autoDismiss(3);
+        return redirect()->back();
     }
 
     /**
@@ -57,7 +59,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('super-admin.categories.edit', compact('category'));
     }
 
     /**
@@ -69,7 +71,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+
+        $this->validate($request, [
+            'category_name' => 'required|unique:categories,category_name,' . $category->id
+        ]);
+
+        Category::where('id', $category->id)->update([
+            'category_name' => $request->category_name
+        ]);
+
+        Toast::title('Successfully!')->message('Category Updated')->info()->backdrop()->autoDismiss(3);
+        return redirect()->back();
     }
 
     /**
@@ -80,6 +92,13 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try {
+            Category::where('id', $category->id)->delete();
+            Toast::title('Successfully!')->message('Category Deleted')->danger()->backdrop()->autoDismiss(3);
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            Toast::title('Error!')->message('Category Not Deleted')->danger()->backdrop()->autoDismiss(3);
+            return redirect()->back();
+        }
     }
 }
