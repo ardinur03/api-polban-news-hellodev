@@ -6,10 +6,8 @@
     </x-slot>
 
     <div class="container mx-auto py-6">
-        <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Card Berita Baru Hari Ini -->
-            <x-card-dashboard title="Jumlah berita post hari ini" link="{{ route('super-admin.dashboard') }}">
+            <x-card-dashboard title="Jumlah berita post hari ini" link="#">
                 {{ $count_by_news_today }}
                 <x-slot name="logo">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -23,8 +21,7 @@
                 </x-slot>
             </x-card-dashboard>
 
-            <!-- Jumlah Berita Draft -->
-            <x-card-dashboard title="Jumlah berita draft" link="{{ route('super-admin.dashboard') }}">
+            <x-card-dashboard title="Jumlah berita draft" link="#">
                 {{ $count_by_news_draft }}
                 <x-slot name="logo">
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -35,14 +32,32 @@
                 </x-slot>
             </x-card-dashboard>
 
-            <!-- Jumlah Berita Post -->
-            <x-card-dashboard title="Jumlah berita Post" link="{{ route('super-admin.dashboard') }}">
+            <x-card-dashboard title="Jumlah berita Post" link="#">
                 {{ $count_by_news_published }}
                 <x-slot name="logo">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 18l6-6-6-6"></path>
-                    </svg>
+                    <x-heroicon-o-newspaper class="w-6 h-6" />
+                </x-slot>
+            </x-card-dashboard>
+
+            <x-card-dashboard title="Category News" link="{{ route('super-admin.categories.index') }}">
+                {{ $count_by_category }}
+                <x-slot name="logo">
+                    <x-heroicon-o-tag class="w-6 h-6" />
+                </x-slot>
+            </x-card-dashboard>
+
+            <x-card-dashboard title="Campus Organizations" link="{{ route('super-admin.campus-organizations.index') }}">
+                {{ $count_by_campus_organization }}
+                <x-slot name="logo">
+                    <x-heroicon-o-building-office class="w-6 h-6" />
+                </x-slot>
+            </x-card-dashboard>
+
+            <x-card-dashboard title="Faculty Organizations"
+                link="{{ route('super-admin.faculty-organizations.index') }}">
+                {{ $count_by_faculty_organization }}
+                <x-slot name="logo">
+                    <x-heroicon-o-building-office-2 class="w-6 h-6" />
                 </x-slot>
             </x-card-dashboard>
         </div>

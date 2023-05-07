@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CampusOrganization;
+use App\Models\Category;
+use App\Models\FacultyOrganization;
 use App\Models\News;
 use ProtoneMedia\Splade\Facades\SEO;
 
@@ -16,6 +19,9 @@ class SuperAdminController extends Controller
             'count_by_news_today' => News::where('created_at', '>=', date('Y-m-d'))->count(),
             'count_by_news_published' => News::where('status', 'published')->count(),
             'count_by_news_draft' => News::where('status', 'draft')->count(),
+            'count_by_category' => Category::count(),
+            'count_by_campus_organization' => CampusOrganization::count(),
+            'count_by_faculty_organization' => FacultyOrganization::count(),
         ]);
     }
 }

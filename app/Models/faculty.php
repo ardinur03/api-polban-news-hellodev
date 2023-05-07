@@ -10,6 +10,11 @@ class faculty extends Model
     use HasFactory;
 
     protected $table = 'faculties';
-    protected $fillable = ['name'];
+    protected $fillable = ['faculty_name'];
     public $timestamps = false;
+
+    public function faculty_organizations()
+    {
+        return $this->hasMany(FacultyOrganization::class, 'faculty_id', 'id');
+    }
 }
