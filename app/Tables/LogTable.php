@@ -2,7 +2,7 @@
 
 namespace App\Tables;
 
-use App\Models\CampusOrganization;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\AbstractTable;
@@ -10,7 +10,7 @@ use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CampusOrganizationsTable extends AbstractTable
+class LogTable extends AbstractTable
 {
     /**
      * Create a new instance.
@@ -42,12 +42,15 @@ class CampusOrganizationsTable extends AbstractTable
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
-                    $query->orWhere('name_campus_organization', 'LIKE', "%{$value}%")->orWhere('code_campus_organization', 'LIKE', "%{$value}%");
+                    $query->orWhere('id', 'LIKE', "%{$value}%")
+                        ->orWhere('log_name', 'LIKE', "%{$value}%")
+                        ->orWhere('subject_type', 'LIKE', "%{$value}%")
+                        ->orWhere('causer_id', 'LIKE', "%{$value}%");
                 });
             });
         });
-        $campus_organizations = CampusOrganization::orderBy('code_campus_organization', 'asc');
-        return QueryBuilder::for($campus_organizations)->allowedSorts(['code_campus_organization', 'name_campus_organization'])->allowedFilters([$globalSearch]);
+        $categories = Activity::orderBy('id', 'desc');
+        return QueryBuilder::for($categories)->allowedSorts(['id', 'log_name', 'event', 'subject_type', 'causer_id', 'properties'])->allowedFilters([$globalSearch]);
     }
 
     /**
@@ -58,6 +61,6 @@ class CampusOrganizationsTable extends AbstractTable
      */
     public function configure(SpladeTable $table)
     {
-        $table->withGlobalSearch()->column(key: 'code_campus_organization', sortable: true)->column(key: 'name_campus_organization', sortable: true)->column('action')->paginate(10);
+        $table->withGlobalSearch()->column('id', sortable: true)->column(key: 'log_name', sortable: true)->column(key: 'event', sortable: true)->column(key: 'subject_type', sortable: true)->column(key: 'causer_id', sortable: true)->column(key: 'properties', sortable: false)->paginate(10);
     }
 }

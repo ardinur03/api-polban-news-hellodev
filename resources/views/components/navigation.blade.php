@@ -67,6 +67,12 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+                            @if (Auth::user()->hasRole('super-admin'))
+                                <x-dropdown-link :href="route('super-admin.logs')">
+                                    {{ __('Activity Logs') }}
+                                </x-dropdown-link>
+                            @endif
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link as="a" :href="route('logout')"
@@ -109,6 +115,12 @@
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
+
+                    @if (Auth::user()->hasRole('super-admin'))
+                        <x-dropdown-link :href="route('super-admin.logs')">
+                            {{ __('Activity Logs') }}
+                        </x-dropdown-link>
+                    @endif
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
