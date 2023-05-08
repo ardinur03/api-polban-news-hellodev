@@ -4,8 +4,10 @@ namespace App\Tables;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoriesTable extends AbstractTable
@@ -37,9 +39,15 @@ class CategoriesTable extends AbstractTable
      */
     public function for()
     {
-        // where latest
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query->orWhere('category_name', 'LIKE', "%{$value}%");
+                });
+            });
+        });
         $categories = Category::orderBy('id', 'desc');
-        return QueryBuilder::for($categories)->allowedSorts(['id', 'category_name']);
+        return QueryBuilder::for($categories)->allowedSorts(['id', 'category_name'])->allowedFilters([$globalSearch]);
     }
 
     /**
@@ -50,6 +58,6 @@ class CategoriesTable extends AbstractTable
      */
     public function configure(SpladeTable $table)
     {
-        $table->column('id', sortable: true)->column(key: 'category_name', sortable: true)->column('action')->paginate(10);
+        $table->withGlobalSearch()->column('id', sortable: true)->column(key: 'category_name', sortable: true)->column('action')->paginate(10);
     }
 }

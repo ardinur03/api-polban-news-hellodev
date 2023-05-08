@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AdminController, AdminRegisterOptionController, CampusOrganizationController, CategoryController, FacultyOrganizationController, HomeController, ProfileController, NewController, NewGalleryController, SuperAdminController};
+use App\Http\Controllers\{AdminController, AdminRegisterOptionController, CampusOrganizationController, CategoryController, FacultyOrganizationController, HomeController, LogController, ProfileController, NewController, NewGalleryController, SuperAdminController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +39,8 @@ Route::middleware('splade')->group(function () {
         Route::resource('categories', CategoryController::class)->except(['show']);
         Route::resource('campus-organizations', CampusOrganizationController::class)->except(['show']);
         Route::resource('faculty-organizations', FacultyOrganizationController::class)->except(['show']);
+        Route::get('logs', [LogController::class, 'index'])->name('logs');
+        Route::get('logs-show/{id}', [LogController::class, 'show'])->name('logs.show');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

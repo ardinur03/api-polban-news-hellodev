@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\faculty;
+use App\Models\Faculty;
 use App\Models\FacultyOrganization;
 use App\Tables\FacultyOrganizationsTable;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class FacultyOrganizationController extends Controller
     public function create()
     {
         return view('super-admin.faculty-organizations.create', [
-            'data_faculty_organizations' => faculty::all()
+            'data_faculty_organizations' => Faculty::all()
         ]);
     }
 
@@ -66,7 +66,7 @@ class FacultyOrganizationController extends Controller
      */
     public function edit(FacultyOrganization $facultyOrganization)
     {
-        $data_faculty_organizations = faculty::all();
+        $data_faculty_organizations = Faculty::all();
         return view('super-admin.faculty-organizations.edit', compact(['facultyOrganization', 'data_faculty_organizations']));
     }
 

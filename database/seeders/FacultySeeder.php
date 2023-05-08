@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\faculty;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Faculty;
 use Illuminate\Database\Seeder;
 
 class FacultySeeder extends Seeder
@@ -44,7 +43,7 @@ class FacultySeeder extends Seeder
         ];
 
         foreach ($faculty as $data) {
-            faculty::create($data);
+            Faculty::create($data);
         }
     }
 }

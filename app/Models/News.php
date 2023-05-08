@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class News extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable;
+    use HasFactory, SoftDeletes, Sluggable, CausesActivity, LogsActivity;
 
     protected $table = 'news';
     protected $fillable = ['user_id', 'slug', 'title', 'brief_overview', 'content', 'status', 'reading_time'];
@@ -48,5 +51,12 @@ class News extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('Master ' . $this->table)
+            ->logFillable();
     }
 }
