@@ -112,4 +112,23 @@ class NewController extends Controller
             'Data list news berhasil diambil'
         );
     }
+
+    public function slides()
+    {
+        $slides = DB::table('galleries')
+            ->whereIn('news_id', DB::table('news')
+                ->where('status', 'published')
+                ->whereNull('deleted_at')
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->pluck('id'))
+            ->join('news', 'galleries.news_id', '=', 'news.id')
+            ->selectRaw('news.title, galleries.picturePath AS picture_path')
+            ->get();
+
+        return ResponseFormatterApi::success(
+            $slides,
+            'Data slides berhasil diambil'
+        );
+    }
 }
