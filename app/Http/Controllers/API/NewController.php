@@ -7,8 +7,6 @@ use App\Helpers\ResponseFormatterApiPagination;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewDetailResource;
 use App\Http\Resources\NewsResource;
-use App\Models\UserAssociationOrganization;
-use App\Models\UserCampusOrganization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
