@@ -110,6 +110,17 @@ class UserController extends Controller
                 'study_program_id' => 1,
                 'user_id' => $mahasiswa->id,
             ]);
+
+            $tokenResult = $mahasiswa->createToken('authToken')->plainTextToken;
+
+            return ResponseFormatterApi::success(
+                [
+                    'access_token' => $tokenResult,
+                    'token_type' => 'Bearer',
+                    'user' => $mahasiswa
+                ],
+                'User Registered'
+            );
         } catch (Exception $error) {
             return ResponseFormatterApi::error(
                 [

@@ -44,6 +44,11 @@ class News extends Model
         return $this->hasMany(Gallery::class, 'news_id', 'id');
     }
 
+    public function bookmark()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
     public function sluggable(): array
     {
         return [
