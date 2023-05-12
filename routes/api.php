@@ -16,4 +16,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::post('bookmark-new', [BookmarkController::class, 'bookmarkNew']);
     Route::get('bookmarks', [BookmarkController::class, 'bookmarks']);
+    Route::post('bookmark-delete', [BookmarkController::class, 'bookmarkDelete']);
 });

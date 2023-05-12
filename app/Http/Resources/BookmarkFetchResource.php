@@ -15,7 +15,8 @@ class BookmarkFetchResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->news['id'],
+            'id_bookmark' => $this->id,
+            'id_news' => $this->news['id'],
             'title' => $this->news['title'],
             'brief_overview' => $this->news['brief_overview'],
             'slug' => $this->news['slug'],

@@ -74,4 +74,47 @@ class BookmarkController extends Controller
             'Bookmarks fetched'
         );
     }
+
+    public function bookmarkDelete(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_bookmark' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseFormatterApi::error(
+                ['message' => $validator->errors()],
+                'Invalid Data',
+                422
+            );
+        }
+
+        $bookmark = Bookmark::find($request->id_bookmark);
+        if (!$bookmark) {
+            return ResponseFormatterApi::error(
+                [
+                    'message' => 'Bookmark not found'
+                ],
+                'Invalid Data',
+                422
+            );
+        }
+
+        if ($bookmark->user_id != $request->user()->id) {
+            return ResponseFormatterApi::error(
+                [
+                    'message' => 'Unauthorized'
+                ],
+                'Invalid Data',
+                401
+            );
+        }
+
+        $bookmark->delete();
+
+        return ResponseFormatterApi::success(
+            null,
+            'Bookmark deleted'
+        );
+    }
 }
