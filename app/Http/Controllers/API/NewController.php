@@ -7,6 +7,7 @@ use App\Helpers\ResponseFormatterApiPagination;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewDetailResource;
 use App\Http\Resources\NewsResource;
+use App\Http\Resources\SlidesResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -121,11 +122,11 @@ class NewController extends Controller
                 ->limit(10)
                 ->pluck('id'))
             ->join('news', 'galleries.news_id', '=', 'news.id')
-            ->selectRaw('news.title, galleries.picturePath AS picture_path')
+            ->selectRaw('news.id, news.title, galleries.picturePath AS picture_path')
             ->get();
 
         return ResponseFormatterApi::success(
-            $slides,
+            SlidesResource::collection($slides),
             'Data slides berhasil diambil'
         );
     }
