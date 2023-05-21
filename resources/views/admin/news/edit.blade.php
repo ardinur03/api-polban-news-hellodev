@@ -6,9 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-12 lg:px-12">
             <x-splade-form :action="route('admin.news.update', $news->new->id)" method="PUT" default="{{ $news }}" unguarded
-                class="max-w-md mx-auto p-4 bg-white rounded-md shadow-md">
+                class="max-w-2xl mx-auto p-4 bg-white rounded-md shadow-md">
                 <x-splade-input name="title" label="Title" />
                 <x-splade-input name="brief_overview" label="Brief Overview" class="mt-2" />
                 <x-splade-textarea name="content" label="Content" class="mt-2" autosize />
